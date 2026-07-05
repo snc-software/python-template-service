@@ -37,3 +37,29 @@ Interactive Scalar API docs, once running:
 ```
 http://127.0.0.1:8000/docs
 ```
+
+# Testing
+
+## Run all tests
+
+```bash
+pytest -v
+```
+
+## Run a folder (or single file)
+
+```bash
+pytest tests/path/to/file/or/folder
+```
+
+## Run until failure
+
+```bash
+pytest -x
+```
+
+## Discover all tests to run
+
+```bash
+pytest --collect-only
+```

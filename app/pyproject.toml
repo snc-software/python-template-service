@@ -7,9 +7,19 @@ dependencies = [
     "fastapi[standard]",
     "scalar-fastapi",
     "sqlalchemy[asyncio]",
-    "asyncpg",
-    "python-dotenv"
+    "asyncpg"
 ]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["*_tests.py", "*_feature.py"]
+python_classes = ["*Tests", "*Feature"]
+python_functions = ["test_*"]
 
 [build-system]
 requires = ["hatchling"]
