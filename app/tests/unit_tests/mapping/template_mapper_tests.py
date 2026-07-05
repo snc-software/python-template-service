@@ -1,21 +1,10 @@
-from datetime import datetime, timezone
-from uuid import uuid4
-
-from template_service.contracts.template import CreateTemplateRequest
-from template_service.features.templates.domain.template_models import TemplateModel
-from template_service.features.templates.persistence.template_entities import Template
+from tests.builders.template_builders import TemplateFactory, TemplateModelFactory, CreateTemplateRequestFactory
 import template_service.features.templates.template_mapper as mapper
 
 
 class TemplateMapperTests:
     def test_can_map_from_persistence_template_to_domain_template_model(self):
-        template = Template(
-            Id=uuid4(),
-            Name="Test Template",
-            CreatedTimestamp=datetime.now(timezone.utc),
-            UpdatedTimestamp=datetime.now(timezone.utc),
-            Deleted=False
-        )
+        template = TemplateFactory.build()
 
         result = mapper.map_from_persistence_to_domain(template)
 
@@ -26,12 +15,7 @@ class TemplateMapperTests:
 
     def test_can_map_from_domain_template_model_to_persistence_template(self):
         deleted = False
-        template_model = TemplateModel(
-            id=uuid4(),
-            name="Test Template",
-            created_timestamp=datetime.now(timezone.utc),
-            updated_timestamp=datetime.now(timezone.utc)
-        )
+        template_model = TemplateModelFactory.build()
 
         template = mapper.map_from_domain_to_persistence(
             template_model, deleted)
@@ -43,7 +27,7 @@ class TemplateMapperTests:
         assert template.Deleted == deleted
 
     def test_can_map_from_request_contract_create_template_request_to_domain_template_model(self):
-        request = CreateTemplateRequest(name="Created Template")
+        request = CreateTemplateRequestFactory.build()
 
         template_model = mapper.map_from_contract_to_domain(request)
 
@@ -51,12 +35,7 @@ class TemplateMapperTests:
         assert template_model.id is not None
 
     def test_can_map_from_domain_template_model_to_response_template_response(self):
-        template_model = TemplateModel(
-            id=uuid4(),
-            name="Test Template",
-            created_timestamp=datetime.now(timezone.utc),
-            updated_timestamp=datetime.now(timezone.utc)
-        )
+        template_model = TemplateModelFactory.build()
 
         template_response = mapper.map_from_domain_to_response(template_model)
 
